@@ -1,8 +1,14 @@
+import { user } from "./index";
+
 // Замени на свой, чтобы получить независимый от других набор данных.
 // "боевая" версия инстапро лежит в ключе prod
 const personalKey = "prod";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
+const getToken = () => {
+  const token = user ? `Bearer ${user.token}` : undefined;
+  return token;
+};
 
 export function getPosts({ token }) {
   return fetch(postsHost, {
@@ -67,4 +73,67 @@ export function uploadImage({ file }) {
   }).then((response) => {
     return response.json();
   });
+}
+
+// Создание поста
+export function createPost(payload) {
+  return fetch(postsHost, {
+    method: "POST",
+    headers: {
+      Authorization: getToken(),
+    },
+    body: payload,
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Нет авторизации");
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    });
+}
+
+export function likePost(payload) {
+  return fetch(postsHost, {
+    method: "POST",
+    url: `https://wedev-api.sky.pro/api/v1/prod/instapro/${payload.id}/like`,
+    headers: {
+      Authorization: getToken(),
+    },
+    body: payload,
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Нет авторизации");
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    });
+}
+
+export function dislikePost(payload) {
+  return fetch(postsHost, {
+    method: "POST",
+    url: `https://wedev-api.sky.pro/api/v1/prod/instapro/${payload.id}/like`,
+    headers: {
+      Authorization: getToken(),
+    },
+    body: payload,
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Нет авторизации");
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    });
 }

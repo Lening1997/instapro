@@ -2,6 +2,7 @@ import { LOADING_PAGE, USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage } from "../index.js";
 import { formatDistanceToNow } from 'date-fns';
+import { likePost, dislikePost } from "../api.js";
 
 const formatDate = (date) => {
   const [day] = date.split('T');
@@ -59,6 +60,12 @@ export function renderPostsPageComponent({ appEl }) {
       goToPage(USER_POSTS_PAGE, {
         userId: userEl.dataset.userId,
       });
+    });
+
+    const button = document.querySelector('.like-button');
+
+    button.addEventListener('click', () => {
+      button.isLike ? likePost() : dislikePost();
     });
   };
 }
