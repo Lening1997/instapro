@@ -1,19 +1,17 @@
-import { LOADING_PAGE, USER_POSTS_PAGE } from "../routes.js";
+import { POSTS_PAGE, USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage } from "../index.js";
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow } from "date-fns";
 import { likePost, dislikePost } from "../api.js";
 
 const formatDate = (date) => {
-  const [day] = date.split('T');
-  const [year, month, days] = day.split('-');
-  
+  const [day] = date.split("T");
+  const [year, month, days] = day.split("-");
+
   return formatDistanceToNow(new Date(year, month, days), { addSuffix: true });
 };
 
 export function renderPostsPageComponent({ appEl }) {
-  console.log("Актуальный список постов:", posts);
-
   const postsHtml = posts.map((post, index) => {
     return `
               <div class="page-container">
@@ -22,7 +20,9 @@ export function renderPostsPageComponent({ appEl }) {
 
                   <li class="post">
                     <div class="post-header" data-user-id="${post.user.id}">
-                        <img src="${post.user.imageUrl}" class="post-header__user-image">
+                        <img src="${
+                          post.user.imageUrl
+                        }" class="post-header__user-image">
                         <p class="post-header__user-name">${post.user.name}.</p>
                     </div>
                     
@@ -30,8 +30,12 @@ export function renderPostsPageComponent({ appEl }) {
                       <img class="post-image" src="${post.user.imageUrl}">
                     </div>
                     <div class="post-likes">
-                      <button data-post-id="${post.id}" class="like-button">
-                        <img src="./assets/images/like-not-active.svg">
+                      <button data-liked="${post.isLiked}" data-post-id="${
+      post.id
+    }" class="like-button">
+                        <img src="./assets/images/like${
+                          !post.isLiked ? "-not" : ""
+                        }-active.svg">
                       </button>
                       <p class="post-likes-text">
                         Нравится: <strong>${post.likes.length}</strong>
@@ -62,10 +66,14 @@ export function renderPostsPageComponent({ appEl }) {
       });
     });
 
-    const button = document.querySelector('.like-button');
+    const button = userEl.closest(".post").querySelector(".like-button");
 
-    button.addEventListener('click', () => {
-      button.isLike ? likePost() : dislikePost();
+    button.addEventListener("click", () => {
+      const id = button.dataset.postId;
+
+      button.dataset.liked === "true"
+        ? dislikePost(id).then(() => goToPage(POSTS_PAGE))
+        : likePost(id).then(() => goToPage(POSTS_PAGE));
     });
-  };
+  }
 }

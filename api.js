@@ -97,14 +97,15 @@ export function createPost(payload) {
 }
 
 export function likePost(payload) {
-  return fetch(postsHost, {
-    method: "POST",
-    url: `https://wedev-api.sky.pro/api/v1/prod/instapro/${payload.id}/like`,
-    headers: {
-      Authorization: getToken(),
-    },
-    body: payload,
-  })
+  return fetch(
+    `https://wedev-api.sky.pro/api/v1/prod/instapro/${payload}/like`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: getToken(),
+      },
+    }
+  )
     .then((response) => {
       if (response.status === 401) {
         throw new Error("Нет авторизации");
@@ -118,14 +119,37 @@ export function likePost(payload) {
 }
 
 export function dislikePost(payload) {
-  return fetch(postsHost, {
-    method: "POST",
-    url: `https://wedev-api.sky.pro/api/v1/prod/instapro/${payload.id}/like`,
-    headers: {
-      Authorization: getToken(),
-    },
-    body: payload,
-  })
+  return fetch(
+    `https://wedev-api.sky.pro/api/v1/prod/instapro/${payload}/dislike`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: getToken(),
+      },
+    }
+  )
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Нет авторизации");
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    });
+}
+
+export function userPosts(payload) {
+  return fetch(
+    `https://wedev-api.sky.pro/api/v1/prod/instapro/user-posts/${payload}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: getToken(),
+      },
+    }
+  )
     .then((response) => {
       if (response.status === 401) {
         throw new Error("Нет авторизации");
