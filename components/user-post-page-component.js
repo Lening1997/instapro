@@ -3,6 +3,7 @@ import { renderHeaderComponent } from "./header-component.js";
 import { goToPage } from "../index.js";
 import { formatDistanceToNow } from "date-fns";
 import { likePost, dislikePost } from "../api.js";
+import { cleanHtml } from "../helpers.js";
 
 const formatDate = (date) => {
   const [day] = date.split("T");
@@ -17,11 +18,11 @@ const counterLikes = (likes) => {
   }
 
   if (likes.length === 1) {
-    return `${likes[0].name}`;
+    return `${cleanHtml(likes[0].name)}`;
   }
 
   if (likes.length > 1) {
-    return `${likes[0].name} и еще ${likes.length - 1}`;
+    return `${cleanHtml(likes[0].name)} и еще ${likes.length - 1}`;
   }
 };
 
@@ -30,9 +31,11 @@ export function renderUserPostsPageComponent({ appEl, posts }) {
   <div class="page-container">
       <div class="header-container"></div>
       <div class="posts-user-header">
-          <img src="${posts[0].user.imageUrl}" class="posts-user-header__user-image">
+          <img src="${
+            posts[0].user.imageUrl
+          }" class="posts-user-header__user-image">
           <p class="posts-user-header__user-name">
-              ${posts[0].user.name}
+              ${cleanHtml(posts[0].user.name)}
           </p>
       </div>
     </div>
@@ -67,8 +70,10 @@ export function renderUserPostsPageComponent({ appEl, posts }) {
                         </p>
                         </div>
                         <p class="post-text">
-                        <span class="user-name">${post.user.name}</span>
-                        ${post.description}
+                        <span class="user-name">${cleanHtml(
+                          post.user.name
+                        )}</span>
+                        ${cleanHtml(post.description)}
                         </p>
                         <p class="post-date">
                         ${formatDate(post.createdAt)}

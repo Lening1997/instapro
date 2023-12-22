@@ -2,7 +2,7 @@ import { user } from "./index";
 
 // Замени на свой, чтобы получить независимый от других набор данных.
 // "боевая" версия инстапро лежит в ключе prod
-const personalKey = "prod";
+const personalKey = "daria-lening";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 const getToken = () => {
@@ -77,12 +77,14 @@ export function uploadImage({ file }) {
 
 // Создание поста
 export function createPost(payload) {
+  const options = JSON.stringify(payload);
+
   return fetch(postsHost, {
     method: "POST",
     headers: {
       Authorization: getToken(),
     },
-    body: payload,
+    body: options,
   })
     .then((response) => {
       if (response.status === 401) {
