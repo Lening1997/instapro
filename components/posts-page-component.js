@@ -28,7 +28,7 @@ export function renderPostsPageComponent({ appEl }) {
                     </div>
                     
                     <div class="post-image-container">
-                      <img class="post-image" src="${post.user.imageUrl}">
+                      <img class="post-image" src="${post.imageUrl}">
                     </div>
                     <div class="post-likes">
                       <button data-liked="${post.isLiked}" data-post-id="${

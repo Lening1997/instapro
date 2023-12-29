@@ -52,7 +52,7 @@ export function renderUserPostsPageComponent({ appEl, posts }) {
                     }"></div>
                     
                     <div class="post-image-container">
-                      <img class="post-image" src="${post.user.imageUrl}">
+                      <img class="post-image" src="${post.imageUrl}">
                     </div>
                     <div class="page-container">
                         <div class="post-likes">

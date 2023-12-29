@@ -100,7 +100,7 @@ export function createPost(payload) {
 
 export function likePost(payload) {
   return fetch(
-    `https://wedev-api.sky.pro/api/v1/prod/instapro/${payload}/like`,
+    `https://wedev-api.sky.pro/api/v1/${personalKey}/instapro/${payload}/like`,
     {
       method: "POST",
       headers: {
@@ -122,7 +122,7 @@ export function likePost(payload) {
 
 export function dislikePost(payload) {
   return fetch(
-    `https://wedev-api.sky.pro/api/v1/prod/instapro/${payload}/dislike`,
+    `https://wedev-api.sky.pro/api/v1/${personalKey}/instapro/${payload}/dislike`,
     {
       method: "POST",
       headers: {
@@ -144,7 +144,7 @@ export function dislikePost(payload) {
 
 export function userPosts(payload) {
   return fetch(
-    `https://wedev-api.sky.pro/api/v1/prod/instapro/user-posts/${payload}`,
+    `https://wedev-api.sky.pro/api/v1/${personalKey}/instapro/user-posts/${payload}`,
     {
       method: "GET",
       headers: {
