@@ -122,7 +122,17 @@ const renderApp = (posts) => {
           description,
           imageUrl,
         };
-        createPost(payload);
+        createPost(payload)
+          .then((result) => {
+            if (result.result !== "ok") {
+              goToPage(ADD_POSTS_PAGE);
+            }
+          })
+          .catch((error) => {
+            alert("Произошла ошибка, попробуйте еще раз.");
+            console.error(error);
+            goToPage(POSTS_PAGE);
+          });
         goToPage(POSTS_PAGE);
       },
     });
